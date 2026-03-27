@@ -130,8 +130,8 @@ export default function Sales() {
                   <th className="text-left p-4 font-medium text-muted-foreground">Customer</th>
                   <th className="text-right p-4 font-medium text-muted-foreground">Trips</th>
                   <th className="text-right p-4 font-medium text-muted-foreground">Rate</th>
-                  <th className="text-right p-4 font-medium text-muted-foreground">Total</th>
-                  <th className="text-right p-4 font-medium text-muted-foreground">Action</th>
+                   <th className="text-right p-4 font-medium text-muted-foreground">Total</th>
+                   {isAdmin && <th className="text-right p-4 font-medium text-muted-foreground">Action</th>}
                 </tr>
               </thead>
               <tbody>
