@@ -20,8 +20,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-30 bg-gradient-to-r from-primary/90 via-primary/70 to-accent/80 backdrop-blur-md border-b border-primary/20 px-4 lg:px-8 py-4 flex items-center gap-3 shadow-lg shadow-primary/10">
         <img src={logo} alt="Zama Tui logo" className="w-9 h-9 rounded-xl object-cover" />
         <div>
-          <h1 className="font-heading font-bold text-lg text-foreground leading-tight">Zama Tui</h1>
-          {isAdmin && <p className="text-xs text-muted-foreground">Sales Manager</p>}
+          <h1 className="font-heading font-bold text-lg text-primary-foreground leading-tight">Zama Tui</h1>
+          {isAdmin && <p className="text-xs text-primary-foreground/70">Sales Manager</p>}
         </div>
         <div className="ml-auto">
           {isAdmin ? (
