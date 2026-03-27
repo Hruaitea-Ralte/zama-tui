@@ -21,7 +21,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <Droplets className="w-5 h-5 text-primary-foreground" />
         </div>
         <div>
-          <h1 className="font-heading font-bold text-lg text-foreground leading-tight">{isAdmin ? 'Zama Tui Sales Manager' : 'Zama Tui'}</h1>
+          <h1 className="font-heading font-bold text-lg text-foreground leading-tight">Zama Tui</h1>
           <p className="text-xs text-muted-foreground">{isAdmin ? 'Sales Manager' : 'Delivery Manager'}</p>
         </div>
         <div className="ml-auto">
