@@ -142,8 +142,11 @@ export default function Sales() {
                     <td className="p-4 text-right text-muted-foreground">{s.tripQuantity}</td>
                     <td className="p-4 text-right text-muted-foreground">₹{s.rate}</td>
                     <td className="p-4 text-right font-semibold text-foreground">₹{s.totalAmount.toLocaleString()}</td>
-                    <td className="p-4 text-right">
-                      <Button size="sm" variant="ghost" onClick={() => handleDelete(s.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
+                    {isAdmin && (
+                      <td className="p-4 text-right">
+                        <Button size="sm" variant="ghost" onClick={() => handleDelete(s.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
+                      </td>
+                    )}
                     </td>
                   </tr>
                 ))}
