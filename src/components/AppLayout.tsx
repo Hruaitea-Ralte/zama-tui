@@ -24,6 +24,17 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <h1 className="font-heading font-bold text-lg text-foreground leading-tight">Zama Tui</h1>
           <p className="text-xs text-muted-foreground">Delivery Manager</p>
         </div>
+        <div className="ml-auto">
+          {isAdmin ? (
+            <Button size="sm" variant="ghost" onClick={() => { logout(); navigate("/"); }}>
+              <LogOut className="w-4 h-4 mr-1" /> Logout
+            </Button>
+          ) : (
+            <Button size="sm" variant="ghost" onClick={() => navigate("/login")}>
+              <LogIn className="w-4 h-4 mr-1" /> Admin
+            </Button>
+          )}
+        </div>
       </header>
 
       {/* Main content */}
