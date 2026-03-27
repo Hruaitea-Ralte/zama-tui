@@ -42,16 +42,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </main>
 
       {/* Bottom navigation bar */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-background/90 backdrop-blur-md border-t border-border flex items-center justify-around px-2 py-2 safe-bottom">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 bg-[hsl(var(--nav))] backdrop-blur-md border-t border-white/10 flex items-center justify-around px-2 py-2 safe-bottom">
         {navItems.map(item => {
           const active = location.pathname === item.path;
           return (
             <Link
               key={item.path}
               to={item.path}
-              className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl text-xs font-medium transition-colors ${active ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+              className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl text-xs font-medium transition-colors ${active ? 'text-[hsl(var(--nav-active))]' : 'text-[hsl(var(--nav-foreground))]/60 hover:text-[hsl(var(--nav-foreground))]'}`}
             >
-              <item.icon className={`w-5 h-5 ${active ? 'text-primary' : ''}`} />
+              <item.icon className={`w-5 h-5 ${active ? 'text-[hsl(var(--nav-active))]' : ''}`} />
               {item.label}
             </Link>
           );

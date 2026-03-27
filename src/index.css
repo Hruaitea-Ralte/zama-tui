@@ -45,6 +45,10 @@
     --sidebar-border: 215 28% 25%;
     --sidebar-ring: 199 89% 48%;
 
+    --nav: 204 80% 16%;
+    --nav-foreground: 199 80% 90%;
+    --nav-active: 199 89% 58%;
+
     --success: 142 71% 45%;
     --success-foreground: 0 0% 100%;
 
