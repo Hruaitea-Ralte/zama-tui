@@ -22,7 +22,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </div>
         <div>
           <h1 className="font-heading font-bold text-lg text-foreground leading-tight">Zama Tui</h1>
-          <p className="text-xs text-muted-foreground">{isAdmin ? 'Sales Manager' : 'Delivery Manager'}</p>
+          {isAdmin && <p className="text-xs text-muted-foreground">Sales Manager</p>}
         </div>
         <div className="ml-auto">
           {isAdmin ? (
