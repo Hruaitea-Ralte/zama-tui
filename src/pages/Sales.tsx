@@ -147,7 +147,6 @@ export default function Sales() {
                         <Button size="sm" variant="ghost" onClick={() => handleDelete(s.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
                       </td>
                     )}
-                    </td>
                   </tr>
                 ))}
               </tbody>
