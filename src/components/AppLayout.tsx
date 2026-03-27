@@ -11,7 +11,8 @@ const navItems = [
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-
+  const navigate = useNavigate();
+  const { isAdmin, logout } = useAuth();
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
