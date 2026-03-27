@@ -1,7 +1,8 @@
 import { useLocation, Link, useNavigate } from "react-router-dom";
-import { LayoutDashboard, Users, ShoppingCart, Droplets, LogIn, LogOut } from "lucide-react";
+import { LayoutDashboard, Users, ShoppingCart, LogIn, LogOut } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/logo.png";
 
 const navItems = [
   { path: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -17,9 +18,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
       <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-border px-4 lg:px-8 py-4 flex items-center gap-3">
-        <div className="w-9 h-9 rounded-xl gradient-primary flex items-center justify-center">
-          <Droplets className="w-5 h-5 text-primary-foreground" />
-        </div>
+        <img src={logo} alt="Zama Tui logo" className="w-9 h-9 rounded-xl object-cover" />
         <div>
           <h1 className="font-heading font-bold text-lg text-foreground leading-tight">Zama Tui</h1>
           {isAdmin && <p className="text-xs text-muted-foreground">Sales Manager</p>}
