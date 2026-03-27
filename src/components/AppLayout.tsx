@@ -1,7 +1,8 @@
 import { useLocation, Link, useNavigate } from "react-router-dom";
-import { LayoutDashboard, Users, ShoppingCart, Droplets, LogIn, LogOut } from "lucide-react";
+import { LayoutDashboard, Users, ShoppingCart, LogIn, LogOut } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/logo.png";
 
 const navItems = [
   { path: "/", label: "Dashboard", icon: LayoutDashboard },
