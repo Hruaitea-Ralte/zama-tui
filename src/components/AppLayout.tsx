@@ -19,7 +19,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <Droplets className="w-5 h-5 text-primary-foreground" />
         </div>
         <div>
-          <h1 className="font-heading font-bold text-lg text-foreground leading-tight">AquaFlow</h1>
+          <h1 className="font-heading font-bold text-lg text-foreground leading-tight">Zama Tui</h1>
           <p className="text-xs text-muted-foreground">Delivery Manager</p>
         </div>
       </header>
