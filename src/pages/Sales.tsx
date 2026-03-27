@@ -67,9 +67,11 @@ export default function Sales() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input placeholder="Search by customer or date..." value={search} onChange={e => setSearch(e.target.value)} className="pl-10" />
         </div>
-        <Button onClick={() => setShowForm(!showForm)}>
-          <Plus className="w-4 h-4 mr-2" /> Log Sale
-        </Button>
+        {isAdmin && (
+          <Button onClick={() => setShowForm(!showForm)}>
+            <Plus className="w-4 h-4 mr-2" /> Log Sale
+          </Button>
+        )}
       </div>
 
       {showForm && (
