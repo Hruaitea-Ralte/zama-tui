@@ -51,7 +51,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               to={item.path}
               className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl text-xs font-medium transition-colors ${active ? 'text-[hsl(var(--nav-active))]' : 'text-[hsl(var(--nav-foreground))]/60 hover:text-[hsl(var(--nav-foreground))]'}`}
             >
-              <item.icon className={`w-5 h-5 ${active ? 'text-primary' : ''}`} />
+              <item.icon className={`w-5 h-5 ${active ? 'text-[hsl(var(--nav-active))]' : ''}`} />
               {item.label}
             </Link>
           );
