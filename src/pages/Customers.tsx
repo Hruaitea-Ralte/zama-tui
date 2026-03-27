@@ -110,12 +110,14 @@ export default function Customers() {
                     <td className="p-4 font-medium text-foreground">{c.name}</td>
                     <td className="p-4 text-muted-foreground">{c.phone}</td>
                     <td className="p-4 text-muted-foreground hidden sm:table-cell">{c.address || "—"}</td>
-                    <td className="p-4 text-right">
-                      <div className="flex justify-end gap-1">
-                        <Button size="sm" variant="ghost" onClick={() => startEdit(c)}><Pencil className="w-4 h-4" /></Button>
-                        <Button size="sm" variant="ghost" onClick={() => handleDelete(c.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
-                      </div>
-                    </td>
+                    {isAdmin && (
+                      <td className="p-4 text-right">
+                        <div className="flex justify-end gap-1">
+                          <Button size="sm" variant="ghost" onClick={() => startEdit(c)}><Pencil className="w-4 h-4" /></Button>
+                          <Button size="sm" variant="ghost" onClick={() => handleDelete(c.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
