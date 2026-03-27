@@ -12,7 +12,8 @@ export default function Sales() {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "" });
+  const FIXED_RATE = 300;
+  const [form, setForm] = useState({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300" });
   const { toast } = useToast();
 
   const reload = () => {
@@ -46,7 +47,7 @@ export default function Sales() {
       rate: parseFloat(form.rate),
     });
     toast({ title: "Sale recorded" });
-    setForm({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "" });
+    setForm({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300" });
     setShowForm(false);
     reload();
   };
@@ -91,11 +92,18 @@ export default function Sales() {
             </div>
             <div>
               <Label>Trip Quantity *</Label>
-              <Input type="number" min="0" step="0.5" value={form.tripQuantity} onChange={e => setForm({ ...form, tripQuantity: e.target.value })} placeholder="0" />
+              <Select value={form.tripQuantity} onValueChange={v => setForm({ ...form, tripQuantity: v })}>
+                <SelectTrigger><SelectValue placeholder="Select trips" /></SelectTrigger>
+                <SelectContent>
+                  {[1, 2, 3, 4].map(n => (
+                    <SelectItem key={n} value={String(n)}>{n} Trip{n > 1 ? 's' : ''}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div>
-              <Label>Rate (₹) *</Label>
-              <Input type="number" min="0" value={form.rate} onChange={e => setForm({ ...form, rate: e.target.value })} placeholder="0" />
+              <Label>Rate (₹)</Label>
+              <Input type="number" value={FIXED_RATE} disabled className="opacity-70" />
             </div>
           </div>
           <div className="flex items-center justify-between">
