@@ -17,7 +17,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-border px-4 lg:px-8 py-4 flex items-center gap-3">
+      <header className="sticky top-0 z-30 bg-gradient-to-r from-primary/90 via-primary/70 to-accent/80 backdrop-blur-md border-b border-primary/20 px-4 lg:px-8 py-4 flex items-center gap-3 shadow-lg shadow-primary/10">
         <img src={logo} alt="Zama Tui logo" className="w-9 h-9 rounded-xl object-cover" />
         <div>
           <h1 className="font-heading font-bold text-lg text-foreground leading-tight">Zama Tui</h1>
