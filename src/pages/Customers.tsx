@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getCustomers, addCustomer, updateCustomer, deleteCustomer, Customer } from "@/lib/store";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/lib/auth";
 
 export default function Customers() {
   const [customers, setCustomers] = useState<Customer[]>([]);
@@ -13,7 +14,7 @@ export default function Customers() {
   const [editing, setEditing] = useState<Customer | null>(null);
   const [form, setForm] = useState({ name: "", phone: "", address: "" });
   const { toast } = useToast();
-
+  const { isAdmin } = useAuth();
   const reload = () => setCustomers(getCustomers());
   useEffect(reload, []);
 
@@ -60,9 +61,11 @@ export default function Customers() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input placeholder="Search customers..." value={search} onChange={e => setSearch(e.target.value)} className="pl-10" />
         </div>
-        <Button onClick={() => { setShowForm(!showForm); setEditing(null); setForm({ name: "", phone: "", address: "" }); }}>
-          <Plus className="w-4 h-4 mr-2" /> Add Customer
-        </Button>
+        {isAdmin && (
+          <Button onClick={() => { setShowForm(!showForm); setEditing(null); setForm({ name: "", phone: "", address: "" }); }}>
+            <Plus className="w-4 h-4 mr-2" /> Add Customer
+          </Button>
+        )}
       </div>
 
       {showForm && (
@@ -97,8 +100,8 @@ export default function Customers() {
                 <tr className="border-b border-border bg-secondary/50">
                   <th className="text-left p-4 font-medium text-muted-foreground">Name</th>
                   <th className="text-left p-4 font-medium text-muted-foreground">Phone</th>
-                  <th className="text-left p-4 font-medium text-muted-foreground hidden sm:table-cell">Address</th>
-                  <th className="text-right p-4 font-medium text-muted-foreground">Actions</th>
+                   <th className="text-left p-4 font-medium text-muted-foreground hidden sm:table-cell">Address</th>
+                   {isAdmin && <th className="text-right p-4 font-medium text-muted-foreground">Actions</th>}
                 </tr>
               </thead>
               <tbody>
@@ -107,12 +110,14 @@ export default function Customers() {
                     <td className="p-4 font-medium text-foreground">{c.name}</td>
                     <td className="p-4 text-muted-foreground">{c.phone}</td>
                     <td className="p-4 text-muted-foreground hidden sm:table-cell">{c.address || "—"}</td>
-                    <td className="p-4 text-right">
-                      <div className="flex justify-end gap-1">
-                        <Button size="sm" variant="ghost" onClick={() => startEdit(c)}><Pencil className="w-4 h-4" /></Button>
-                        <Button size="sm" variant="ghost" onClick={() => handleDelete(c.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
-                      </div>
-                    </td>
+                    {isAdmin && (
+                      <td className="p-4 text-right">
+                        <div className="flex justify-end gap-1">
+                          <Button size="sm" variant="ghost" onClick={() => startEdit(c)}><Pencil className="w-4 h-4" /></Button>
+                          <Button size="sm" variant="ghost" onClick={() => handleDelete(c.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getCustomers, getSales, addSale, deleteSale, Sale, Customer } from "@/lib/store";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/lib/auth";
 
 export default function Sales() {
   const [sales, setSales] = useState<Sale[]>([]);
@@ -15,6 +16,7 @@ export default function Sales() {
   const FIXED_RATE = 300;
   const [form, setForm] = useState({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300" });
   const { toast } = useToast();
+  const { isAdmin } = useAuth();
 
   const reload = () => {
     setSales(getSales());
@@ -65,9 +67,11 @@ export default function Sales() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input placeholder="Search by customer or date..." value={search} onChange={e => setSearch(e.target.value)} className="pl-10" />
         </div>
-        <Button onClick={() => setShowForm(!showForm)}>
-          <Plus className="w-4 h-4 mr-2" /> Log Sale
-        </Button>
+        {isAdmin && (
+          <Button onClick={() => setShowForm(!showForm)}>
+            <Plus className="w-4 h-4 mr-2" /> Log Sale
+          </Button>
+        )}
       </div>
 
       {showForm && (
@@ -126,8 +130,8 @@ export default function Sales() {
                   <th className="text-left p-4 font-medium text-muted-foreground">Customer</th>
                   <th className="text-right p-4 font-medium text-muted-foreground">Trips</th>
                   <th className="text-right p-4 font-medium text-muted-foreground">Rate</th>
-                  <th className="text-right p-4 font-medium text-muted-foreground">Total</th>
-                  <th className="text-right p-4 font-medium text-muted-foreground">Action</th>
+                   <th className="text-right p-4 font-medium text-muted-foreground">Total</th>
+                   {isAdmin && <th className="text-right p-4 font-medium text-muted-foreground">Action</th>}
                 </tr>
               </thead>
               <tbody>
@@ -138,9 +142,11 @@ export default function Sales() {
                     <td className="p-4 text-right text-muted-foreground">{s.tripQuantity}</td>
                     <td className="p-4 text-right text-muted-foreground">₹{s.rate}</td>
                     <td className="p-4 text-right font-semibold text-foreground">₹{s.totalAmount.toLocaleString()}</td>
-                    <td className="p-4 text-right">
-                      <Button size="sm" variant="ghost" onClick={() => handleDelete(s.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
-                    </td>
+                    {isAdmin && (
+                      <td className="p-4 text-right">
+                        <Button size="sm" variant="ghost" onClick={() => handleDelete(s.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

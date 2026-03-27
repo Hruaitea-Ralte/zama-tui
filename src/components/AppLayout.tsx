@@ -1,6 +1,7 @@
-import { useLocation } from "react-router-dom";
-import { LayoutDashboard, Users, ShoppingCart, Droplets } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
+import { LayoutDashboard, Users, ShoppingCart, Droplets, LogIn, LogOut } from "lucide-react";
+import { useAuth } from "@/lib/auth";
+import { Button } from "@/components/ui/button";
 
 const navItems = [
   { path: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -10,7 +11,8 @@ const navItems = [
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-
+  const navigate = useNavigate();
+  const { isAdmin, logout } = useAuth();
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
@@ -21,6 +23,17 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <div>
           <h1 className="font-heading font-bold text-lg text-foreground leading-tight">Zama Tui</h1>
           <p className="text-xs text-muted-foreground">Delivery Manager</p>
+        </div>
+        <div className="ml-auto">
+          {isAdmin ? (
+            <Button size="sm" variant="ghost" onClick={() => { logout(); navigate("/"); }}>
+              <LogOut className="w-4 h-4 mr-1" /> Logout
+            </Button>
+          ) : (
+            <Button size="sm" variant="ghost" onClick={() => navigate("/login")}>
+              <LogIn className="w-4 h-4 mr-1" /> Admin
+            </Button>
+          )}
         </div>
       </header>
 
