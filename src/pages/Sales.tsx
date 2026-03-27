@@ -47,7 +47,7 @@ export default function Sales() {
       rate: parseFloat(form.rate),
     });
     toast({ title: "Sale recorded" });
-    setForm({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "" });
+    setForm({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300" });
     setShowForm(false);
     reload();
   };
