@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getCustomers, getSales, addSale, deleteSale, Sale, Customer } from "@/lib/store";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/lib/auth";
 
 export default function Sales() {
   const [sales, setSales] = useState<Sale[]>([]);
