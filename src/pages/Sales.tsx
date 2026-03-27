@@ -16,6 +16,7 @@ export default function Sales() {
   const FIXED_RATE = 300;
   const [form, setForm] = useState({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300" });
   const { toast } = useToast();
+  const { isAdmin } = useAuth();
 
   const reload = () => {
     setSales(getSales());
