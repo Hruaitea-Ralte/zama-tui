@@ -14,7 +14,7 @@ export default function Customers() {
   const [editing, setEditing] = useState<Customer | null>(null);
   const [form, setForm] = useState({ name: "", phone: "", address: "" });
   const { toast } = useToast();
-
+  const { isAdmin } = useAuth();
   const reload = () => setCustomers(getCustomers());
   useEffect(reload, []);
 
