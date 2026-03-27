@@ -92,11 +92,18 @@ export default function Sales() {
             </div>
             <div>
               <Label>Trip Quantity *</Label>
-              <Input type="number" min="0" step="0.5" value={form.tripQuantity} onChange={e => setForm({ ...form, tripQuantity: e.target.value })} placeholder="0" />
+              <Select value={form.tripQuantity} onValueChange={v => setForm({ ...form, tripQuantity: v })}>
+                <SelectTrigger><SelectValue placeholder="Select trips" /></SelectTrigger>
+                <SelectContent>
+                  {[1, 2, 3, 4].map(n => (
+                    <SelectItem key={n} value={String(n)}>{n} Trip{n > 1 ? 's' : ''}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div>
-              <Label>Rate (₹) *</Label>
-              <Input type="number" min="0" value={form.rate} onChange={e => setForm({ ...form, rate: e.target.value })} placeholder="0" />
+              <Label>Rate (₹)</Label>
+              <Input type="number" value={FIXED_RATE} disabled className="opacity-70" />
             </div>
           </div>
           <div className="flex items-center justify-between">
