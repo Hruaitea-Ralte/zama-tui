@@ -151,6 +151,11 @@ export default function Sales() {
                     <td className="p-4 text-right text-muted-foreground">{s.tripQuantity}</td>
                     <td className="p-4 text-right text-muted-foreground">₹{s.rate}</td>
                     <td className="p-4 text-right font-semibold text-foreground">₹{s.totalAmount.toLocaleString()}</td>
+                    <td className="p-4 text-center">
+                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${(s.status || 'unpaid') === 'paid' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'}`}>
+                        {(s.status || 'unpaid') === 'paid' ? 'Paid' : 'Unpaid'}
+                      </span>
+                    </td>
                     {isAdmin && (
                       <td className="p-4 text-right">
                         <Button size="sm" variant="ghost" onClick={() => handleDelete(s.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
