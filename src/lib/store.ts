@@ -13,6 +13,7 @@ export interface Sale {
   tripQuantity: number;
   rate: number;
   totalAmount: number;
+  status: 'paid' | 'unpaid';
 }
 
 const CUSTOMERS_KEY = 'water_delivery_customers';
