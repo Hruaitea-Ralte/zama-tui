@@ -90,18 +90,18 @@ export default function Sales() {
 
     autoTable(doc, {
       startY: 40,
-      head: [["Date", "Customer", "Trips", "Amount (₹)", "Status"]],
+      head: [["Date", "Customer", "Trips", "Amount (Rs.)", "Status"]],
       body: filtered.map(s => [
         new Date(s.date).toLocaleDateString(),
         s.customerName,
         String(s.tripQuantity),
-        `₹${s.totalAmount.toLocaleString()}`,
+        `Rs.${s.totalAmount.toLocaleString()}`,
         (s.status || "unpaid") === "paid" ? "Paid" : "Unpaid",
       ]),
       foot: [[
         "Total", "", 
         String(filtered.reduce((sum, s) => sum + s.tripQuantity, 0)),
-        `₹${filtered.reduce((sum, s) => sum + s.totalAmount, 0).toLocaleString()}`,
+        `Rs.${filtered.reduce((sum, s) => sum + s.totalAmount, 0).toLocaleString()}`,
         "",
       ]],
       styles: { fontSize: 9 },
