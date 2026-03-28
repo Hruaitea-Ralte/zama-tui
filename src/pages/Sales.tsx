@@ -48,6 +48,7 @@ export default function Sales() {
       customerName: customer.name,
       tripQuantity: parseFloat(form.tripQuantity),
       rate: parseFloat(form.rate),
+      status: form.status,
     });
     toast({ title: "Sale recorded" });
     setForm({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300" });
