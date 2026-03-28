@@ -69,7 +69,7 @@ export default function Sales() {
         </div>
         {isAdmin && (
           <Button onClick={() => setShowForm(!showForm)}>
-            <Plus className="w-4 h-4 mr-2" /> Log Sale
+            <Plus className="w-4 h-4 mr-2" /> Add Sale
           </Button>
         )}
       </div>
