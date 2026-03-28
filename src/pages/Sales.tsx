@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { Plus, Trash2, ShoppingCart, Search } from "lucide-react";
+import { Plus, Trash2, ShoppingCart, Search, FileDown } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,12 +8,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { getCustomers, getSales, addSale, deleteSale, updateSaleStatus, Sale, Customer } from "@/lib/store";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/auth";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 export default function Sales() {
   const [sales, setSales] = useState<Sale[]>([]);
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const FIXED_RATE = 300;
   const [form, setForm] = useState({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300", status: "unpaid" as 'paid' | 'unpaid' });
   const { toast } = useToast();
@@ -26,7 +30,12 @@ export default function Sales() {
   useEffect(reload, []);
 
   const filtered = sales
-    .filter(s => s.customerName.toLowerCase().includes(search.toLowerCase()) || s.date.includes(search))
+    .filter(s => {
+      const matchesSearch = s.customerName.toLowerCase().includes(search.toLowerCase()) || s.date.includes(search);
+      const afterStart = !startDate || s.date >= startDate;
+      const beforeEnd = !endDate || s.date <= endDate;
+      return matchesSearch && afterStart && beforeEnd;
+    })
     .sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id));
 
   const totalCalc = useMemo(() => {
