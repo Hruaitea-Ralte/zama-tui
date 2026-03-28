@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { Plus, Trash2, ShoppingCart, Search, FileDown } from "lucide-react";
+import { Plus, Trash2, ShoppingCart, Search } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,16 +8,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { getCustomers, getSales, addSale, deleteSale, updateSaleStatus, Sale, Customer } from "@/lib/store";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/auth";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
 
 export default function Sales() {
   const [sales, setSales] = useState<Sale[]>([]);
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
   const FIXED_RATE = 300;
   const [form, setForm] = useState({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300", status: "unpaid" as 'paid' | 'unpaid' });
   const { toast } = useToast();
@@ -30,12 +26,7 @@ export default function Sales() {
   useEffect(reload, []);
 
   const filtered = sales
-    .filter(s => {
-      const matchesSearch = s.customerName.toLowerCase().includes(search.toLowerCase()) || s.date.includes(search);
-      const afterStart = !startDate || s.date >= startDate;
-      const beforeEnd = !endDate || s.date <= endDate;
-      return matchesSearch && afterStart && beforeEnd;
-    })
+    .filter(s => s.customerName.toLowerCase().includes(search.toLowerCase()) || s.date.includes(search))
     .sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id));
 
   const totalCalc = useMemo(() => {
@@ -71,48 +62,6 @@ export default function Sales() {
     reload();
   };
 
-  const handleExportPDF = () => {
-    if (filtered.length === 0) {
-      toast({ title: "No sales to export", variant: "destructive" });
-      return;
-    }
-    const doc = new jsPDF();
-    const title = "Sales Report";
-    const dateRange = startDate || endDate
-      ? `${startDate || "..."} to ${endDate || "..."}`
-      : "All dates";
-
-    doc.setFontSize(16);
-    doc.text(title, 14, 20);
-    doc.setFontSize(10);
-    doc.text(`Date Range: ${dateRange}`, 14, 28);
-    doc.text(`Generated: ${new Date().toLocaleDateString()}`, 14, 34);
-
-    autoTable(doc, {
-      startY: 40,
-      head: [["Date", "Customer", "Trips", "Amount (₹)", "Status"]],
-      body: filtered.map(s => [
-        new Date(s.date).toLocaleDateString(),
-        s.customerName,
-        String(s.tripQuantity),
-        `₹${s.totalAmount.toLocaleString()}`,
-        (s.status || "unpaid") === "paid" ? "Paid" : "Unpaid",
-      ]),
-      foot: [[
-        "Total", "", 
-        String(filtered.reduce((sum, s) => sum + s.tripQuantity, 0)),
-        `₹${filtered.reduce((sum, s) => sum + s.totalAmount, 0).toLocaleString()}`,
-        "",
-      ]],
-      styles: { fontSize: 9 },
-      headStyles: { fillColor: [59, 130, 246] },
-      footStyles: { fillColor: [243, 244, 246], textColor: [0, 0, 0], fontStyle: "bold" },
-    });
-
-    doc.save(`sales-report-${new Date().toISOString().split("T")[0]}.pdf`);
-    toast({ title: "PDF exported successfully" });
-  };
-
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -120,30 +69,9 @@ export default function Sales() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input placeholder="Search by customer or date..." value={search} onChange={e => setSearch(e.target.value)} className="pl-10" />
         </div>
-        <div className="flex gap-2">
-          {isAdmin && (
-            <Button onClick={() => setShowForm(!showForm)}>
-              <Plus className="w-4 h-4 mr-2" /> Add Sale
-            </Button>
-          )}
-          <Button variant="outline" onClick={handleExportPDF}>
-            <FileDown className="w-4 h-4 mr-2" /> Export PDF
-          </Button>
-        </div>
-      </div>
-
-      <div className="flex flex-col sm:flex-row gap-4 items-end">
-        <div>
-          <Label className="text-xs text-muted-foreground">Start Date</Label>
-          <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="w-40" />
-        </div>
-        <div>
-          <Label className="text-xs text-muted-foreground">End Date</Label>
-          <Input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="w-40" />
-        </div>
-        {(startDate || endDate) && (
-          <Button variant="ghost" size="sm" onClick={() => { setStartDate(""); setEndDate(""); }}>
-            Clear
+        {isAdmin && (
+          <Button onClick={() => setShowForm(!showForm)}>
+            <Plus className="w-4 h-4 mr-2" /> Add Sale
           </Button>
         )}
       </div>
