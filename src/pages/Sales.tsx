@@ -15,7 +15,7 @@ export default function Sales() {
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
   const FIXED_RATE = 300;
-  const [form, setForm] = useState({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300" });
+  const [form, setForm] = useState({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300", status: "unpaid" as 'paid' | 'unpaid' });
   const { toast } = useToast();
   const { isAdmin } = useAuth();
 
