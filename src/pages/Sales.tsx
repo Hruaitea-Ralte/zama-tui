@@ -113,7 +113,13 @@ export default function Sales() {
             </div>
           </div>
           <div className="flex items-center justify-between">
-            <p className="text-sm text-muted-foreground">Total: <span className="font-semibold text-foreground">₹{totalCalc.toLocaleString()}</span></p>
+            <div className="flex items-center gap-4">
+              <p className="text-sm text-muted-foreground">Total: <span className="font-semibold text-foreground">₹{totalCalc.toLocaleString()}</span></p>
+              <div className="flex items-center gap-2">
+                <Label htmlFor="status-toggle" className="text-sm">Paid</Label>
+                <Switch id="status-toggle" checked={form.status === 'paid'} onCheckedChange={checked => setForm({ ...form, status: checked ? 'paid' : 'unpaid' })} />
+              </div>
+            </div>
             <div className="flex gap-2">
               <Button type="submit">Save</Button>
               <Button type="button" variant="outline" onClick={() => setShowForm(false)}>Cancel</Button>
