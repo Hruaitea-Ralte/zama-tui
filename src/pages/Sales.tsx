@@ -51,7 +51,7 @@ export default function Sales() {
       status: form.status,
     });
     toast({ title: "Sale recorded" });
-    setForm({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300" });
+    setForm({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300", status: "unpaid" });
     setShowForm(false);
     reload();
   };
