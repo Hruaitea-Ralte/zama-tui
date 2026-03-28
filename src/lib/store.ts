@@ -13,6 +13,7 @@ export interface Sale {
   tripQuantity: number;
   rate: number;
   totalAmount: number;
+  status: 'paid' | 'unpaid';
 }
 
 const CUSTOMERS_KEY = 'water_delivery_customers';
@@ -62,10 +63,16 @@ export function addSale(sale: Omit<Sale, 'id' | 'totalAmount'>): Sale {
     ...sale,
     id: crypto.randomUUID(),
     totalAmount: sale.tripQuantity * sale.rate,
+    status: sale.status || 'unpaid',
   };
   sales.push(newSale);
   saveSales(sales);
   return newSale;
+}
+
+export function updateSaleStatus(id: string, status: 'paid' | 'unpaid') {
+  const sales = getSales().map(s => s.id === id ? { ...s, status } : s);
+  saveSales(sales);
 }
 
 export function deleteSale(id: string) {

@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
 import { Plus, Trash2, ShoppingCart, Search } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { getCustomers, getSales, addSale, deleteSale, Sale, Customer } from "@/lib/store";
+import { getCustomers, getSales, addSale, deleteSale, updateSaleStatus, Sale, Customer } from "@/lib/store";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/auth";
 
@@ -14,7 +15,7 @@ export default function Sales() {
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
   const FIXED_RATE = 300;
-  const [form, setForm] = useState({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300" });
+  const [form, setForm] = useState({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300", status: "unpaid" as 'paid' | 'unpaid' });
   const { toast } = useToast();
   const { isAdmin } = useAuth();
 
@@ -47,9 +48,10 @@ export default function Sales() {
       customerName: customer.name,
       tripQuantity: parseFloat(form.tripQuantity),
       rate: parseFloat(form.rate),
+      status: form.status,
     });
     toast({ title: "Sale recorded" });
-    setForm({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300" });
+    setForm({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300", status: "unpaid" });
     setShowForm(false);
     reload();
   };
@@ -111,7 +113,13 @@ export default function Sales() {
             </div>
           </div>
           <div className="flex items-center justify-between">
-            <p className="text-sm text-muted-foreground">Total: <span className="font-semibold text-foreground">₹{totalCalc.toLocaleString()}</span></p>
+            <div className="flex items-center gap-4">
+              <p className="text-sm text-muted-foreground">Total: <span className="font-semibold text-foreground">₹{totalCalc.toLocaleString()}</span></p>
+              <div className="flex items-center gap-2">
+                <Label htmlFor="status-toggle" className="text-sm">Paid</Label>
+                <Switch id="status-toggle" checked={form.status === 'paid'} onCheckedChange={checked => setForm({ ...form, status: checked ? 'paid' : 'unpaid' })} />
+              </div>
+            </div>
             <div className="flex gap-2">
               <Button type="submit">Save</Button>
               <Button type="button" variant="outline" onClick={() => setShowForm(false)}>Cancel</Button>
@@ -130,8 +138,9 @@ export default function Sales() {
                   <th className="text-left p-4 font-medium text-muted-foreground">Customer</th>
                   <th className="text-right p-4 font-medium text-muted-foreground">Trips</th>
                   <th className="text-right p-4 font-medium text-muted-foreground">Rate</th>
-                   <th className="text-right p-4 font-medium text-muted-foreground">Total</th>
-                   {isAdmin && <th className="text-right p-4 font-medium text-muted-foreground">Action</th>}
+                  <th className="text-right p-4 font-medium text-muted-foreground">Total</th>
+                  <th className="text-center p-4 font-medium text-muted-foreground">Status</th>
+                  {isAdmin && <th className="text-right p-4 font-medium text-muted-foreground">Action</th>}
                 </tr>
               </thead>
               <tbody>
@@ -142,6 +151,11 @@ export default function Sales() {
                     <td className="p-4 text-right text-muted-foreground">{s.tripQuantity}</td>
                     <td className="p-4 text-right text-muted-foreground">₹{s.rate}</td>
                     <td className="p-4 text-right font-semibold text-foreground">₹{s.totalAmount.toLocaleString()}</td>
+                    <td className="p-4 text-center">
+                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${(s.status || 'unpaid') === 'paid' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'}`}>
+                        {(s.status || 'unpaid') === 'paid' ? 'Paid' : 'Unpaid'}
+                      </span>
+                    </td>
                     {isAdmin && (
                       <td className="p-4 text-right">
                         <Button size="sm" variant="ghost" onClick={() => handleDelete(s.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
