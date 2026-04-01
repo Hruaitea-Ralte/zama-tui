@@ -61,8 +61,8 @@ export default function Customers() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input placeholder="Search customers..." value={search} onChange={e => setSearch(e.target.value)} className="pl-10" />
         </div>
-        {isAdmin && (
-          <Button onClick={() => { setShowForm(!showForm); setEditing(null); setForm({ name: "", phone: "", address: "" }); }}>
+        {isAdmin && !showForm && (
+          <Button onClick={() => { setShowForm(true); setEditing(null); setForm({ name: "", phone: "", address: "" }); }}>
             <Plus className="w-4 h-4 mr-2" /> Add Customer
           </Button>
         )}
