@@ -79,11 +79,8 @@ export default function Sales() {
       {showForm && (
         <form onSubmit={handleSubmit} className="glass-card rounded-xl p-6 space-y-4">
           <h3 className="font-heading font-semibold text-foreground">New Sale</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div>
-              <Label>Date</Label>
-              <Input type="date" value={form.date} onChange={e => setForm({ ...form, date: e.target.value })} />
-            </div>
+          <Input type="hidden" value={form.date} />
+          <div className="space-y-4">
             <div>
               <Label>Customer *</Label>
               <Select value={form.customerId} onValueChange={v => setForm({ ...form, customerId: v })}>
@@ -107,22 +104,14 @@ export default function Sales() {
                 </SelectContent>
               </Select>
             </div>
-            <div>
-              <Label>Rate (₹)</Label>
-              <Input type="number" value={FIXED_RATE} disabled className="opacity-70" />
-            </div>
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <p className="text-sm text-muted-foreground">Total: <span className="font-semibold text-foreground">₹{totalCalc.toLocaleString()}</span></p>
-              <div className="flex items-center gap-2">
-                <Label htmlFor="status-toggle" className="text-sm">Paid</Label>
-                <Switch id="status-toggle" checked={form.status === 'paid'} onCheckedChange={checked => setForm({ ...form, status: checked ? 'paid' : 'unpaid' })} />
-              </div>
+            <p className="text-sm text-muted-foreground">Total: <span className="font-semibold text-foreground">₹{totalCalc.toLocaleString()}</span></p>
+            <div className="flex items-center gap-2">
+              <Label htmlFor="status-toggle" className="text-sm">Paid</Label>
+              <Switch id="status-toggle" checked={form.status === 'paid'} onCheckedChange={checked => setForm({ ...form, status: checked ? 'paid' : 'unpaid' })} />
             </div>
             <div className="flex gap-2">
-              <Button type="submit">Save</Button>
-              <Button type="button" variant="outline" onClick={() => setShowForm(false)}>Cancel</Button>
+              <Button type="submit" className="flex-1">Save</Button>
+              <Button type="button" variant="outline" className="flex-1" onClick={() => setShowForm(false)}>Cancel</Button>
             </div>
           </div>
         </form>
