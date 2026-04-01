@@ -75,6 +75,11 @@ export function updateSaleStatus(id: string, status: 'paid' | 'unpaid') {
   saveSales(sales);
 }
 
+export function updateSale(id: string, data: Omit<Sale, 'id' | 'totalAmount'>) {
+  const sales = getSales().map(s => s.id === id ? { ...s, ...data, totalAmount: data.tripQuantity * data.rate } : s);
+  saveSales(sales);
+}
+
 export function deleteSale(id: string) {
   saveSales(getSales().filter(s => s.id !== id));
 }
