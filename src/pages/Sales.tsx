@@ -1,11 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
-import { Plus, Trash2, ShoppingCart, Search } from "lucide-react";
+import { Plus, Trash2, Pencil, ShoppingCart, Search } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { getCustomers, getSales, addSale, deleteSale, updateSaleStatus, Sale, Customer } from "@/lib/store";
+import { getCustomers, getSales, addSale, deleteSale, updateSale, Sale, Customer } from "@/lib/store";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/auth";
 
@@ -14,6 +14,7 @@ export default function Sales() {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [editing, setEditing] = useState<Sale | null>(null);
   const FIXED_RATE = 300;
   const [form, setForm] = useState({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300", status: "unpaid" as 'paid' | 'unpaid' });
   const { toast } = useToast();
@@ -42,18 +43,49 @@ export default function Sales() {
       toast({ title: "Please fill all fields", variant: "destructive" });
       return;
     }
-    addSale({
-      date: form.date,
-      customerId: customer.id,
-      customerName: customer.name,
-      tripQuantity: parseFloat(form.tripQuantity),
-      rate: parseFloat(form.rate),
-      status: form.status,
-    });
-    toast({ title: "Sale recorded" });
+    if (editing) {
+      updateSale(editing.id, {
+        date: form.date,
+        customerId: customer.id,
+        customerName: customer.name,
+        tripQuantity: parseFloat(form.tripQuantity),
+        rate: parseFloat(form.rate),
+        status: form.status,
+      });
+      toast({ title: "Sale updated" });
+    } else {
+      addSale({
+        date: form.date,
+        customerId: customer.id,
+        customerName: customer.name,
+        tripQuantity: parseFloat(form.tripQuantity),
+        rate: parseFloat(form.rate),
+        status: form.status,
+      });
+      toast({ title: "Sale recorded" });
+    }
     setForm({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300", status: "unpaid" });
+    setEditing(null);
     setShowForm(false);
     reload();
+  };
+
+  const startEdit = (s: Sale) => {
+    setEditing(s);
+    setForm({
+      date: s.date,
+      customerId: s.customerId,
+      tripQuantity: String(s.tripQuantity),
+      rate: String(s.rate),
+      status: s.status || 'unpaid',
+    });
+    setShowForm(true);
+  };
+
+  const handleCancel = () => {
+    setShowForm(false);
+    setEditing(null);
+    setForm({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300", status: "unpaid" });
   };
 
   const handleDelete = (id: string) => {
@@ -78,7 +110,7 @@ export default function Sales() {
 
       {showForm && (
         <form onSubmit={handleSubmit} className="glass-card rounded-xl p-6 space-y-4">
-          <h3 className="font-heading font-semibold text-foreground">New Sale</h3>
+          <h3 className="font-heading font-semibold text-foreground">{editing ? "Edit Sale" : "New Sale"}</h3>
           <Input type="hidden" value={form.date} />
           <div className="space-y-4">
             <div>
@@ -110,8 +142,8 @@ export default function Sales() {
               <Switch id="status-toggle" checked={form.status === 'paid'} onCheckedChange={checked => setForm({ ...form, status: checked ? 'paid' : 'unpaid' })} />
             </div>
             <div className="flex gap-2">
-              <Button type="submit" className="flex-1">Save</Button>
-              <Button type="button" variant="outline" className="flex-1" onClick={() => setShowForm(false)}>Cancel</Button>
+              <Button type="submit" className="flex-1">{editing ? "Update" : "Save"}</Button>
+              <Button type="button" variant="outline" className="flex-1" onClick={handleCancel}>Cancel</Button>
             </div>
           </div>
         </form>
@@ -146,7 +178,8 @@ export default function Sales() {
                       </span>
                     </td>
                     {isAdmin && (
-                      <td className="p-4 text-right">
+                      <td className="p-4 text-right space-x-1">
+                        <Button size="sm" variant="ghost" onClick={() => startEdit(s)}><Pencil className="w-4 h-4" /></Button>
                         <Button size="sm" variant="ghost" onClick={() => handleDelete(s.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
                       </td>
                     )}
