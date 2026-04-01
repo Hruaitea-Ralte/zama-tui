@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { Plus, Trash2, Pencil, ShoppingCart, Search } from "lucide-react";
+import { Plus, Trash2, Pencil, ShoppingCart, Search, Download } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { getCustomers, getSales, addSale, deleteSale, updateSale, Sale, Customer } from "@/lib/store";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/auth";
+import { exportSalesPdf } from "@/lib/exportSalesPdf";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default function Sales() {
   const [sales, setSales] = useState<Sale[]>([]);
@@ -17,6 +19,8 @@ export default function Sales() {
   const [editing, setEditing] = useState<Sale | null>(null);
   const FIXED_RATE = 300;
   const [form, setForm] = useState({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300", status: "unpaid" as 'paid' | 'unpaid' });
+  const [exportOpen, setExportOpen] = useState(false);
+  const [exportRange, setExportRange] = useState({ start: new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0], end: new Date().toISOString().split('T')[0] });
   const { toast } = useToast();
   const { isAdmin } = useAuth();
 
@@ -101,11 +105,38 @@ export default function Sales() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input placeholder="Search by customer or date..." value={search} onChange={e => setSearch(e.target.value)} className="pl-10" />
         </div>
-        {isAdmin && !showForm && (
-          <Button onClick={() => setShowForm(true)}>
-            <Plus className="w-4 h-4 mr-2" /> Add Sale
-          </Button>
-        )}
+        <div className="flex items-center gap-2">
+          <Dialog open={exportOpen} onOpenChange={setExportOpen}>
+            <DialogTrigger asChild>
+              <Button size="icon" variant="outline" title="Export PDF">
+                <Download className="w-4 h-4" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-xs">
+              <DialogHeader>
+                <DialogTitle>Export Sales PDF</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-3">
+                <div>
+                  <Label>Start Date</Label>
+                  <Input type="date" value={exportRange.start} onChange={e => setExportRange(p => ({ ...p, start: e.target.value }))} />
+                </div>
+                <div>
+                  <Label>End Date</Label>
+                  <Input type="date" value={exportRange.end} onChange={e => setExportRange(p => ({ ...p, end: e.target.value }))} />
+                </div>
+                <Button className="w-full" onClick={() => { exportSalesPdf(exportRange.start, exportRange.end); setExportOpen(false); toast({ title: "PDF exported" }); }}>
+                  <Download className="w-4 h-4 mr-2" /> Download PDF
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+          {isAdmin && !showForm && (
+            <Button onClick={() => setShowForm(true)}>
+              <Plus className="w-4 h-4 mr-2" /> Add Sale
+            </Button>
+          )}
+        </div>
       </div>
 
       {showForm && (
