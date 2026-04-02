@@ -106,31 +106,33 @@ export default function Sales() {
           <Input placeholder="Search by customer or date..." value={search} onChange={e => setSearch(e.target.value)} className="pl-10" />
         </div>
         <div className="flex items-center gap-2">
-          <Dialog open={exportOpen} onOpenChange={setExportOpen}>
-            <DialogTrigger asChild>
-              <Button size="icon" variant="outline" title="Export PDF">
-                <Download className="w-4 h-4" />
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-xs">
-              <DialogHeader>
-                <DialogTitle>Export Sales PDF</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-3">
-                <div>
-                  <Label>Start Date</Label>
-                  <Input type="date" value={exportRange.start} onChange={e => setExportRange(p => ({ ...p, start: e.target.value }))} />
-                </div>
-                <div>
-                  <Label>End Date</Label>
-                  <Input type="date" value={exportRange.end} onChange={e => setExportRange(p => ({ ...p, end: e.target.value }))} />
-                </div>
-                <Button className="w-full" onClick={() => { exportSalesPdf(exportRange.start, exportRange.end); setExportOpen(false); toast({ title: "PDF exported" }); }}>
-                  <Download className="w-4 h-4 mr-2" /> Download PDF
+          {isAdmin && (
+            <Dialog open={exportOpen} onOpenChange={setExportOpen}>
+              <DialogTrigger asChild>
+                <Button size="icon" variant="outline" title="Export PDF">
+                  <Download className="w-4 h-4" />
                 </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
+              </DialogTrigger>
+              <DialogContent className="max-w-xs">
+                <DialogHeader>
+                  <DialogTitle>Export Sales PDF</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-3">
+                  <div>
+                    <Label>Start Date</Label>
+                    <Input type="date" value={exportRange.start} onChange={e => setExportRange(p => ({ ...p, start: e.target.value }))} />
+                  </div>
+                  <div>
+                    <Label>End Date</Label>
+                    <Input type="date" value={exportRange.end} onChange={e => setExportRange(p => ({ ...p, end: e.target.value }))} />
+                  </div>
+                  <Button className="w-full" onClick={() => { exportSalesPdf(exportRange.start, exportRange.end); setExportOpen(false); toast({ title: "PDF exported" }); }}>
+                    <Download className="w-4 h-4 mr-2" /> Download PDF
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          )}
           {isAdmin && !showForm && (
             <Button onClick={() => setShowForm(true)}>
               <Plus className="w-4 h-4 mr-2" /> Add Sale
