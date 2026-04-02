@@ -94,10 +94,13 @@ export default function Sales() {
     setForm({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300", status: "unpaid" });
   };
 
-  const handleDelete = (id: string) => {
-    deleteSale(id);
-    toast({ title: "Sale deleted" });
-    reload();
+  const confirmDelete = () => {
+    if (deleteId) {
+      deleteSale(deleteId);
+      toast({ title: "Sale deleted" });
+      setDeleteId(null);
+      reload();
+    }
   };
 
   return (
