@@ -108,7 +108,12 @@ export default function Customers() {
                 {filtered.map(c => (
                   <tr key={c.id} className="border-b border-border/50 last:border-0 hover:bg-accent/30 transition-colors">
                     <td className="p-4 font-medium text-foreground">{c.name}</td>
-                    <td className="p-4 text-muted-foreground">{c.phone}</td>
+                    <td className="p-4 text-muted-foreground">
+                      <a href={`tel:${c.phone}`} className="inline-flex items-center gap-1.5 hover:text-primary transition-colors">
+                        <Phone className="w-4 h-4 text-primary" />
+                        {c.phone}
+                      </a>
+                    </td>
                     <td className="p-4 text-muted-foreground hidden sm:table-cell">{c.address || "—"}</td>
                     {isAdmin && (
                       <td className="p-4 text-right">
