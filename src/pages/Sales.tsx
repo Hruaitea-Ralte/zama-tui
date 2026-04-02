@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/lib/auth";
 import { exportSalesPdf } from "@/lib/exportSalesPdf";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
 export default function Sales() {
   const [sales, setSales] = useState<Sale[]>([]);
@@ -17,6 +18,7 @@ export default function Sales() {
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<Sale | null>(null);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
   const FIXED_RATE = 300;
   const [form, setForm] = useState({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300", status: "unpaid" as 'paid' | 'unpaid' });
   const [exportOpen, setExportOpen] = useState(false);
@@ -92,10 +94,13 @@ export default function Sales() {
     setForm({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300", status: "unpaid" });
   };
 
-  const handleDelete = (id: string) => {
-    deleteSale(id);
-    toast({ title: "Sale deleted" });
-    reload();
+  const confirmDelete = () => {
+    if (deleteId) {
+      deleteSale(deleteId);
+      toast({ title: "Sale deleted" });
+      setDeleteId(null);
+      reload();
+    }
   };
 
   return (
@@ -214,7 +219,7 @@ export default function Sales() {
                     </td>
                     <td className="p-4 text-right space-x-1">
                       <Button size="sm" variant="ghost" onClick={() => startEdit(s)}><Pencil className="w-4 h-4" /></Button>
-                      <Button size="sm" variant="ghost" onClick={() => handleDelete(s.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
+                      <Button size="sm" variant="ghost" onClick={() => setDeleteId(s.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
                     </td>
                   </tr>
                 ))}
@@ -228,6 +233,19 @@ export default function Sales() {
           <p>{search ? "No sales found" : "No sales yet. Log your first delivery!"}</p>
         </div>
       ))}
+
+      <AlertDialog open={!!deleteId} onOpenChange={(open) => !open && setDeleteId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Sale</AlertDialogTitle>
+            <AlertDialogDescription>Are you sure you want to delete this sale? This action cannot be undone.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>No</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete}>Yes</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
