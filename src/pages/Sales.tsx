@@ -17,6 +17,7 @@ export default function Sales() {
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState<Sale | null>(null);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
   const FIXED_RATE = 300;
   const [form, setForm] = useState({ date: new Date().toISOString().split('T')[0], customerId: "", tripQuantity: "", rate: "300", status: "unpaid" as 'paid' | 'unpaid' });
   const [exportOpen, setExportOpen] = useState(false);
