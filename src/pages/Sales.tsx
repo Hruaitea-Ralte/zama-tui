@@ -192,34 +192,34 @@ export default function Sales() {
       {isAdmin && (filtered.length > 0 ? (
         <div className="glass-card rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-xs table-fixed">
               <thead>
                 <tr className="border-b border-border bg-secondary/50">
-                  <th className="text-left p-4 font-medium text-muted-foreground">Date</th>
-                  <th className="text-left p-4 font-medium text-muted-foreground">Customer</th>
-                  <th className="text-right p-4 font-medium text-muted-foreground">Trips</th>
-                  <th className="text-right p-4 font-medium text-muted-foreground">Rate</th>
-                  <th className="text-right p-4 font-medium text-muted-foreground">Total</th>
-                  <th className="text-center p-4 font-medium text-muted-foreground">Status</th>
-                  <th className="text-right p-4 font-medium text-muted-foreground">Action</th>
+                  <th className="text-left px-2 py-2 font-medium text-muted-foreground w-[70px]">Date</th>
+                  <th className="text-left px-2 py-2 font-medium text-muted-foreground">Customer</th>
+                  <th className="text-right px-2 py-2 font-medium text-muted-foreground w-[40px]">Trips</th>
+                  <th className="text-right px-2 py-2 font-medium text-muted-foreground w-[45px]">Rate</th>
+                  <th className="text-right px-2 py-2 font-medium text-muted-foreground w-[55px]">Total</th>
+                  <th className="text-center px-2 py-2 font-medium text-muted-foreground w-[52px]">Status</th>
+                  <th className="text-right px-1 py-2 font-medium text-muted-foreground w-[64px]">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {filtered.map(s => (
                   <tr key={s.id} className="border-b border-border/50 last:border-0 hover:bg-accent/30 transition-colors">
-                    <td className="p-4 text-foreground">{new Date(s.date).toLocaleDateString()}</td>
-                    <td className="p-4 font-medium text-foreground">{s.customerName}</td>
-                    <td className="p-4 text-right text-muted-foreground">{s.tripQuantity}</td>
-                    <td className="p-4 text-right text-muted-foreground">₹{s.rate}</td>
-                    <td className="p-4 text-right font-semibold text-foreground">₹{s.totalAmount.toLocaleString()}</td>
-                    <td className="p-4 text-center">
-                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${(s.status || 'unpaid') === 'paid' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'}`}>
+                    <td className="px-2 py-2 text-foreground whitespace-nowrap">{new Date(s.date).toLocaleDateString()}</td>
+                    <td className="px-2 py-2 font-medium text-foreground truncate">{s.customerName}</td>
+                    <td className="px-2 py-2 text-right text-muted-foreground">{s.tripQuantity}</td>
+                    <td className="px-2 py-2 text-right text-muted-foreground">₹{s.rate}</td>
+                    <td className="px-2 py-2 text-right font-semibold text-foreground">₹{s.totalAmount.toLocaleString()}</td>
+                    <td className="px-2 py-2 text-center">
+                      <span className={`inline-flex items-center rounded-full px-1.5 py-0.5 text-[10px] font-medium ${(s.status || 'unpaid') === 'paid' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'}`}>
                         {(s.status || 'unpaid') === 'paid' ? 'Paid' : 'Unpaid'}
                       </span>
                     </td>
-                    <td className="p-4 text-right space-x-1">
-                      <Button size="sm" variant="ghost" onClick={() => startEdit(s)}><Pencil className="w-4 h-4" /></Button>
-                      <Button size="sm" variant="ghost" onClick={() => setDeleteId(s.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
+                    <td className="px-1 py-2 text-right whitespace-nowrap">
+                      <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => startEdit(s)}><Pencil className="w-3.5 h-3.5" /></Button>
+                      <Button size="icon" variant="ghost" className="h-7 w-7 text-destructive hover:text-destructive" onClick={() => setDeleteId(s.id)}><Trash2 className="w-3.5 h-3.5" /></Button>
                     </td>
                   </tr>
                 ))}
