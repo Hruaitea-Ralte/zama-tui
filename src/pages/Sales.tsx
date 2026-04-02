@@ -184,7 +184,7 @@ export default function Sales() {
         </form>
       )}
 
-      {filtered.length > 0 ? (
+      {isAdmin && (filtered.length > 0 ? (
         <div className="glass-card rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -196,7 +196,7 @@ export default function Sales() {
                   <th className="text-right p-4 font-medium text-muted-foreground">Rate</th>
                   <th className="text-right p-4 font-medium text-muted-foreground">Total</th>
                   <th className="text-center p-4 font-medium text-muted-foreground">Status</th>
-                  {isAdmin && <th className="text-right p-4 font-medium text-muted-foreground">Action</th>}
+                  <th className="text-right p-4 font-medium text-muted-foreground">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -212,12 +212,10 @@ export default function Sales() {
                         {(s.status || 'unpaid') === 'paid' ? 'Paid' : 'Unpaid'}
                       </span>
                     </td>
-                    {isAdmin && (
-                      <td className="p-4 text-right space-x-1">
-                        <Button size="sm" variant="ghost" onClick={() => startEdit(s)}><Pencil className="w-4 h-4" /></Button>
-                        <Button size="sm" variant="ghost" onClick={() => handleDelete(s.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
-                      </td>
-                    )}
+                    <td className="p-4 text-right space-x-1">
+                      <Button size="sm" variant="ghost" onClick={() => startEdit(s)}><Pencil className="w-4 h-4" /></Button>
+                      <Button size="sm" variant="ghost" onClick={() => handleDelete(s.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -229,7 +227,7 @@ export default function Sales() {
           <ShoppingCart className="w-12 h-12 mb-3 text-primary/30" />
           <p>{search ? "No sales found" : "No sales yet. Log your first delivery!"}</p>
         </div>
-      )}
+      ))}
     </div>
   );
 }
