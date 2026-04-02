@@ -219,7 +219,7 @@ export default function Sales() {
                     </td>
                     <td className="p-4 text-right space-x-1">
                       <Button size="sm" variant="ghost" onClick={() => startEdit(s)}><Pencil className="w-4 h-4" /></Button>
-                      <Button size="sm" variant="ghost" onClick={() => handleDelete(s.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
+                      <Button size="sm" variant="ghost" onClick={() => setDeleteId(s.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
                     </td>
                   </tr>
                 ))}
