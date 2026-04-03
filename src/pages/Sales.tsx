@@ -167,14 +167,19 @@ export default function Sales() {
             </div>
             <div>
               <Label>Trip Quantity *</Label>
-              <Select value={form.tripQuantity} onValueChange={v => setForm({ ...form, tripQuantity: v })}>
-                <SelectTrigger><SelectValue placeholder="Select trips" /></SelectTrigger>
-                <SelectContent>
-                {[0.5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
-                    <SelectItem key={n} value={String(n)}>{n} Trip{n !== 1 ? 's' : ''}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="flex items-center gap-3 mt-1">
+                <Button type="button" size="icon" variant="outline" className="h-9 w-9"
+                  disabled={parseFloat(form.tripQuantity || "0") <= 0.5}
+                  onClick={() => setForm(f => ({ ...f, tripQuantity: String(Math.max(0.5, (parseFloat(f.tripQuantity) || 1) - 0.5)) }))}>
+                  <span className="text-lg font-bold">−</span>
+                </Button>
+                <span className="min-w-[3rem] text-center font-semibold text-foreground text-lg">{form.tripQuantity || "0"}</span>
+                <Button type="button" size="icon" variant="outline" className="h-9 w-9"
+                  disabled={parseFloat(form.tripQuantity || "0") >= 10}
+                  onClick={() => setForm(f => ({ ...f, tripQuantity: String(Math.min(10, (parseFloat(f.tripQuantity) || 0) + 0.5)) }))}>
+                  <span className="text-lg font-bold">+</span>
+                </Button>
+              </div>
             </div>
             <p className="text-sm text-muted-foreground">Total: <span className="font-semibold text-foreground">₹{totalCalc.toLocaleString()}</span></p>
             <div className="flex items-center gap-2">
