@@ -12,7 +12,7 @@ export default function Dashboard() {
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-        <MetricCard title={`Today's Sales (${format(new Date(), "MMMM d, yyyy")})`} amount={todayMetrics.totalAmount} trips={todayMetrics.totalTrips} icon={Droplets} gradient />
+        <MetricCard title={`Today's Sales (${format(new Date(), "d MMMM, yyyy")})`} amount={todayMetrics.totalAmount} trips={todayMetrics.totalTrips} icon={Droplets} gradient />
         <MetricCard title="This Week" amount={weekMetrics.totalAmount} trips={weekMetrics.totalTrips} icon={CalendarDays} />
         <MetricCard title="This Month" amount={monthMetrics.totalAmount} trips={monthMetrics.totalTrips} icon={CalendarRange} />
       </div>
