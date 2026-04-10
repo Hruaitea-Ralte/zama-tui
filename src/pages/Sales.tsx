@@ -118,7 +118,7 @@ export default function Sales() {
           </div>
         )}
         <div className="flex items-center gap-2">
-          {isAdmin && (
+          {isAdmin && !showForm && (
             <Dialog open={exportOpen} onOpenChange={setExportOpen}>
               <DialogTrigger asChild>
                 <Button size="icon" variant="outline" title="Export PDF">
