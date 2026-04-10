@@ -1,4 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import { Plus, Trash2, Pencil, ShoppingCart, Search, Download } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
@@ -151,8 +156,21 @@ export default function Sales() {
       {showForm && (
         <form onSubmit={handleSubmit} className="glass-card rounded-xl p-6 space-y-4">
           <h3 className="font-heading font-semibold text-foreground">{editing ? "Edit Sale" : "New Sale"}</h3>
-          <Input type="hidden" value={form.date} />
           <div className="space-y-4">
+            <div>
+              <Label>Date *</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" className={cn("w-full justify-start text-left font-normal", !form.date && "text-muted-foreground")}>
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {form.date ? (() => { const d = new Date(form.date + 'T00:00:00'); return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`; })() : "Pick a date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar mode="single" selected={form.date ? new Date(form.date + 'T00:00:00') : undefined} onSelect={(d) => d && setForm(f => ({ ...f, date: format(d, 'yyyy-MM-dd') }))} initialFocus className="p-3 pointer-events-auto" />
+                </PopoverContent>
+              </Popover>
+            </div>
             <div>
               <Label>Customer *</Label>
               <Select value={form.customerId} onValueChange={v => setForm({ ...form, customerId: v })}>
