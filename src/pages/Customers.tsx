@@ -57,10 +57,12 @@ export default function Customers() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input placeholder="Search customers..." value={search} onChange={e => setSearch(e.target.value)} className="pl-10" />
-        </div>
+        {!showForm && (
+          <div className="relative flex-1 max-w-sm">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input placeholder="Search customers..." value={search} onChange={e => setSearch(e.target.value)} className="pl-10" />
+          </div>
+        )}
         {isAdmin && !showForm && (
           <Button onClick={() => { setShowForm(true); setEditing(null); setForm({ name: "", phone: "", address: "" }); }}>
             <Plus className="w-4 h-4 mr-2" /> Add Customer
