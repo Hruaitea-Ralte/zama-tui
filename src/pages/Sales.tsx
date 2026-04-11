@@ -236,11 +236,7 @@ export default function Sales() {
                       <td className="px-1 py-1.5 text-right text-muted-foreground">{s.tripQuantity}</td>
                       <td className="px-1 py-1.5 text-right font-semibold text-foreground">₹{s.totalAmount.toLocaleString()}</td>
                       <td className="px-1 py-1.5 text-center">
-                        {(s.status || 'unpaid') === 'paid' ? (
-                          <CheckCircle2 className="w-6 h-6 text-blue-600 mx-auto" />
-                        ) : (
-                          <XCircle className="w-6 h-6 text-red-600 mx-auto" />
-                        )}
+                        <span className={cn("inline-block w-3.5 h-3.5 rounded-full", (s.status || 'unpaid') === 'paid' ? "bg-blue-500" : "bg-red-500")} />
                       </td>
                       <td className="px-0.5 py-1.5 text-right whitespace-nowrap">
                         <Button size="icon" variant="ghost" className="h-6 w-6" onClick={() => startEdit(s)}><Pencil className="w-3 h-3" /></Button>
