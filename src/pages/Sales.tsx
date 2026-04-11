@@ -222,7 +222,7 @@ export default function Sales() {
                   <th className="text-left px-1.5 py-2 font-medium text-muted-foreground">Customer</th>
                   <th className="text-right px-1 py-2 font-medium text-muted-foreground w-[32px]">Trips</th>
                   <th className="text-right px-1 py-2 font-medium text-muted-foreground w-[50px]">Amt</th>
-                  <th className="text-center px-1 py-2 font-medium text-muted-foreground w-[40px]">Status</th>
+                  <th className="text-center px-1 py-2 font-medium text-muted-foreground w-[52px]">Status</th>
                   <th className="text-right px-0.5 py-2 font-medium text-muted-foreground w-[52px]"></th>
                 </tr>
               </thead>
