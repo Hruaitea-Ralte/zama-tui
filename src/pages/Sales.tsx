@@ -4,7 +4,7 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { Plus, Trash2, Pencil, ShoppingCart, Search, Download } from "lucide-react";
+import { Plus, Trash2, Pencil, ShoppingCart, Search, Download, CheckCircle2, XCircle } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
