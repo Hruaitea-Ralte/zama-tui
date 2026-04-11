@@ -236,7 +236,9 @@ export default function Sales() {
                       <td className="px-1 py-1.5 text-right text-muted-foreground">{s.tripQuantity}</td>
                       <td className="px-1 py-1.5 text-right font-semibold text-foreground">₹{s.totalAmount.toLocaleString()}</td>
                       <td className="px-1 py-1.5 text-center">
-                        <span className={`inline-block w-2 h-2 rounded-full ${(s.status || 'unpaid') === 'paid' ? 'bg-green-500' : 'bg-red-500'}`} title={(s.status || 'unpaid') === 'paid' ? 'Paid' : 'Unpaid'} />
+                        <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold leading-none ${(s.status || 'unpaid') === 'paid' ? 'bg-blue-100 text-blue-700' : 'bg-red-100 text-red-700'}`}>
+                          {(s.status || 'unpaid') === 'paid' ? 'Paid' : 'Unpaid'}
+                        </span>
                       </td>
                       <td className="px-0.5 py-1.5 text-right whitespace-nowrap">
                         <Button size="icon" variant="ghost" className="h-6 w-6" onClick={() => startEdit(s)}><Pencil className="w-3 h-3" /></Button>
