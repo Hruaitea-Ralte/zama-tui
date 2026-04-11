@@ -97,31 +97,31 @@ export default function Customers() {
       {filtered.length > 0 ? (
         <div className="glass-card rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-xs">
               <thead>
                 <tr className="border-b border-border bg-secondary/50">
-                  <th className="text-left p-4 font-medium text-muted-foreground">Name</th>
-                  <th className="text-left p-4 font-medium text-muted-foreground">Phone</th>
-                   <th className="text-left p-4 font-medium text-muted-foreground hidden sm:table-cell">Address</th>
-                   {isAdmin && <th className="text-right p-4 font-medium text-muted-foreground">Actions</th>}
+                  <th className="text-left px-2 py-2 font-medium text-muted-foreground">Name</th>
+                  <th className="text-left px-2 py-2 font-medium text-muted-foreground">Phone</th>
+                  <th className="text-left px-2 py-2 font-medium text-muted-foreground hidden sm:table-cell">Address</th>
+                  {isAdmin && <th className="text-right px-2 py-2 font-medium text-muted-foreground" style={{ width: 60 }}>Actions</th>}
                 </tr>
               </thead>
               <tbody>
                 {filtered.map(c => (
                   <tr key={c.id} className="border-b border-border/50 last:border-0 hover:bg-accent/30 transition-colors">
-                    <td className="p-4 font-medium text-foreground">{c.name}</td>
-                    <td className="p-4 text-muted-foreground">
-                      <a href={`tel:${c.phone}`} className="inline-flex items-center gap-1.5 hover:text-primary transition-colors">
-                        <Phone className="w-4 h-4 text-primary" />
-                        {c.phone}
+                    <td className="px-2 py-1.5 font-medium text-foreground truncate max-w-[120px]">{c.name}</td>
+                    <td className="px-2 py-1.5 text-muted-foreground">
+                      <a href={`tel:${c.phone}`} className="inline-flex items-center gap-1 hover:text-primary transition-colors">
+                        <Phone className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                        <span className="truncate">{c.phone}</span>
                       </a>
                     </td>
-                    <td className="p-4 text-muted-foreground hidden sm:table-cell">{c.address || "—"}</td>
+                    <td className="px-2 py-1.5 text-muted-foreground hidden sm:table-cell truncate max-w-[150px]">{c.address || "—"}</td>
                     {isAdmin && (
-                      <td className="p-4 text-right">
-                        <div className="flex justify-end gap-1">
-                          <Button size="sm" variant="ghost" onClick={() => startEdit(c)}><Pencil className="w-4 h-4" /></Button>
-                          <Button size="sm" variant="ghost" onClick={() => handleDelete(c.id)} className="text-destructive hover:text-destructive"><Trash2 className="w-4 h-4" /></Button>
+                      <td className="px-2 py-1.5 text-right">
+                        <div className="flex justify-end gap-0">
+                          <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => startEdit(c)}><Pencil className="w-3.5 h-3.5" /></Button>
+                          <Button size="icon" variant="ghost" className="h-7 w-7 text-destructive hover:text-destructive" onClick={() => handleDelete(c.id)}><Trash2 className="w-3.5 h-3.5" /></Button>
                         </div>
                       </td>
                     )}
