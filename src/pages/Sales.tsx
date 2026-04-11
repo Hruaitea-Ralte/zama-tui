@@ -215,15 +215,15 @@ export default function Sales() {
       {isAdmin && (filtered.length > 0 ? (
         <div className="glass-card rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-xs table-fixed">
+            <table className="w-full text-xs">
               <thead>
                 <tr className="border-b border-border bg-secondary/50">
-                  <th className="text-left px-1.5 py-2 font-medium text-muted-foreground w-[58px]">Date</th>
-                  <th className="text-left px-1.5 py-2 font-medium text-muted-foreground">Customer</th>
-                  <th className="text-right px-1 py-2 font-medium text-muted-foreground w-[32px]">Trips</th>
-                  <th className="text-right px-1 py-2 font-medium text-muted-foreground w-[50px]">Amt</th>
-                  <th className="text-center px-1 py-2 font-medium text-muted-foreground w-[52px]">Status</th>
-                  <th className="text-right px-0.5 py-2 font-medium text-muted-foreground w-[52px]"></th>
+                  <th className="text-left px-1.5 py-2 font-medium text-muted-foreground whitespace-nowrap">Date</th>
+                  <th className="text-left px-1.5 py-2 font-medium text-muted-foreground w-full">Customer</th>
+                  <th className="text-right px-1 py-2 font-medium text-muted-foreground whitespace-nowrap">Trips</th>
+                  <th className="text-right px-1 py-2 font-medium text-muted-foreground whitespace-nowrap">Amt</th>
+                  <th className="text-center px-1 py-2 font-medium text-muted-foreground whitespace-nowrap">Status</th>
+                  <th className="text-right px-0.5 py-2 font-medium text-muted-foreground whitespace-nowrap"></th>
                 </tr>
               </thead>
               <tbody>
