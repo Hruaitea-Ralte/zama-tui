@@ -212,7 +212,7 @@ export default function Sales() {
         </form>
       )}
 
-      {isAdmin && (filtered.length > 0 ? (
+      {isAdmin && !showForm && (filtered.length > 0 ? (
         <div className="glass-card rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
